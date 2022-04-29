@@ -1,0 +1,19 @@
+{
+  "sites": [
+    {
+      "id": 1,
+      "name": "Angular",
+      "url": "http://angular.io/"
+    },
+    {
+      "id": 2,
+      "name": "Vue.js",
+      "url": "http://vue.io/"
+    },
+    {
+      "id": 3,
+      "name": "spring",
+      "url": "http://spring.io/"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+        <title>MyTodo</title>
+</head>
+<script>
+    const someAsynchronousFunc = function(){return};
+    const func1 = function(resolve, reject){someAsynchronousFunc()};
+    const promiseFunc = function() {return new Promise(func1)};
+    const resolvedFunc = function (){return resolve('success')};
+    const rejectedFunc = function (){return reject('failed')};
+
+    var promiseVar = fetch('');
+    promiseFunc().then(resolvedFunc).catch(rejectedFunc);;
+
+
+</script>
+<body>
+</body>
+
+</html>

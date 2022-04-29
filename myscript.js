@@ -5,7 +5,7 @@ function showTodoList() {
     list.innerHTML = '';
     for(let i = 0; i < todos.length;i++){
         list.innerHTML += 
-        '<li>todos[i]<button onclick="deleteTodo(${i})">DEL</button></li>';
+        `<li>${todos[i]}<button onclick="deleteTodo(${i})">DEL</button></li>`;
     }
 }
 
