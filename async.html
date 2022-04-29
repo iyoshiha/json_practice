@@ -5,14 +5,37 @@
         <title>MyTodo</title>
 </head>
 <script>
-    const someAsynchronousFunc = function(){return};
-    const func1 = function(resolve, reject){someAsynchronousFunc()};
-    const promiseFunc = function() {return new Promise(func1)};
-    const resolvedFunc = function (){return resolve('success')};
-    const rejectedFunc = function (){return reject('failed')};
+    // const someAsynchronousFunc = function(){return};
+    // const func1 = function(resolve, reject){someAsynchronousFunc()};
+    // const promiseFunc = function() {return new Promise(func1)};
+    // const resolvedFunc = function (){return resolve('success')};
+    // const rejectedFunc = function (){return reject('failed')};
 
-    var promiseVar = fetch('');
-    promiseFunc().then(resolvedFunc).catch(rejectedFunc);;
+    // var promiseVar = fetch('');
+    // promiseFunc().then(resolvedFunc).catch(rejectedFunc);;
+
+    const data = [
+        {id: 101, name: 'Alice'},
+        {id: 102, name: 'Bob'},
+        {id: 103, name: 'Charlie'}
+    ];
+    let ids = new Array();
+    for (i = 0; i < data.length; i++){
+    ids[i] = data[i].id;
+    };
+    console.log('ids = ' + ids );
+
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+        console.log("2th");
+        resolve();
+    }, 1000);
+})
+.then(function(){console.log('then')})
+.catch(function(){console.log('reject')})
+
+console.log(3);
+// .then(() => console.log('3th')).then(() => console.log('4th'));
 
 
 </script>
