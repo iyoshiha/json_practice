@@ -13,30 +13,69 @@
 
     // var promiseVar = fetch('');
     // promiseFunc().then(resolvedFunc).catch(rejectedFunc);;
+//////map
+//     const data = [
+//         {id: 101, name: 'Alice'},
+//         {id: 102, name: 'Bob'},
+//         {id: 103, name: 'Charlie'}
+//     ];
+//     let ids = new Array();
+//     for (i = 0; i < data.length; i++){
+//     ids[i] = data[i].id;
+//     };
+//     console.log('ids = ' + ids );
 
-    const data = [
-        {id: 101, name: 'Alice'},
-        {id: 102, name: 'Bob'},
-        {id: 103, name: 'Charlie'}
-    ];
-    let ids = new Array();
-    for (i = 0; i < data.length; i++){
-    ids[i] = data[i].id;
-    };
-    console.log('ids = ' + ids );
+/////promise
+//     new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//         console.log("2th");
+//         resolve();
+//     }, 1000);
+// })
+// .then(function(){console.log('then')})
+// .catch(function(){console.log('reject')})
 
-    new Promise((resolve, reject) => {
-        setTimeout(() => {
-        console.log("2th");
-        resolve();
-    }, 1000);
-})
-.then(function(){console.log('then')})
-.catch(function(){console.log('reject')})
-
-console.log(3);
+// console.log(3);
 // .then(() => console.log('3th')).then(() => console.log('4th'));
 
+function getData(){
+
+    var v0 = fetch('https://jsonplaceholder.typicode.com/users')
+    var v1 = v0.then(function(response) {return response.json()})
+    var v2 = v1.then(function(users){console.log(users)})
+    .catch(function(err) { console.log(err)});
+
+    console.log(v1.then(function(s){console.log(s)}));
+}
+
+// getData();
+function getReddit() {
+    fetch('https://www.reddit.com/r/foodaaaaa/top.json?limit=10')
+    .then(function(response){return response.json()})
+    .then(function(res){return res.data.children})
+    .catch(()=>console.log('err1'))
+    .then(function(article){
+        for (let i = 0; i < article.length; i++) {
+            console.log(article[i].data.title)
+        }
+    })
+    .catch(function(err){console.log(err)});
+}
+getReddit();
+
+function postPractice() {
+    const url = '';
+    fetch(url, 
+    {
+        method: 'Post',
+        headers: {
+            'Content-type':'application/json'
+        },
+        body: JSON.stringify(bodyinfo)
+    }).then(function(res){return res.json()})
+    .then(function(data){return})
+    .catch(function(err){console.log(err)})
+}
 
 </script>
 <body>
