@@ -61,7 +61,7 @@ function getReddit() {
     })
     .catch(function(err){console.log(err)});
 }
-getReddit();
+// getReddit();
 
 function postPractice() {
     const url = '';
@@ -76,6 +76,24 @@ function postPractice() {
     .then(function(data){return})
     .catch(function(err){console.log(err)})
 }
+
+function aryPrac() {
+    let ary = new Array();
+
+    ary[0] = 100;
+    ary[1] = 'string';
+    ary[2] = null;
+    ary[6] = false;
+    console.log(ary);
+    if (0 === false) {
+        console.log('true');
+    }else if (ary[4] === false) {
+    console.log(ary[4]);
+    }else{
+        console.log('end');
+    }
+}
+aryPrac();
 
 </script>
 <body>

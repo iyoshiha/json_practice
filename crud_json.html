@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rest API</title>
+</head>
+
+<body>
+    <div>
+        <div id="create">
+            <section>
+                <h1>Create data</h1>
+                <div>
+                    <input id="siteName" placeholder="Site name"><br>
+                </div>
+                <div>
+                    <input id="siteUrl" placeholder="Site url"><br>
+                </div>
+                <button onclick="createData()">create</button>
+            </section>
+        </div>
+        <hr>
+        <div id="read">
+            <section>
+                <h1>read data</h1>
+                <button onclick="readData()">read</button>
+                <ul>
+                    <div id="dataList"></div>
+                </ul>
+            </section>
+        </div>
+        
+        <hr>
+
+        <div id="update">
+            <section>
+                <h1>update data</h1>
+                <div>
+                    <input id="updateId" placeholder="ID"><br>
+                </div>
+                <div>
+                    <input id="updateName" placeholder="Site name"><br>
+                </div>
+                <div>
+                    <input id="updateUrl" placeholder="Site url"><br>
+                </div>
+                <button onclick="updateData()">update</button>
+            </section>
+        </div>
+
+        <hr>
+
+        <div id="delete">
+            <section>
+                <h1>delete data</h1>
+                <form>
+                    <div>
+                        <input id="deleteId" placeholder="ID"><br>
+                    </div>
+                    <button onclick="deleteData()">delete</button>
+                </form>
+            </section>
+        </div>
+    </div>
+    <script src="crud.js"></script>
+
+</body>
+
+</html>
