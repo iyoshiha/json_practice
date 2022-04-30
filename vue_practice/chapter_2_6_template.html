@@ -6,27 +6,22 @@
 </head>
 
     <div id="app">
-        <p>{{ items[0].name }}</p>
-        <p>{{ items[0].price}}</p>
-        <p>{{ items[0].quantity}}</p>
     </div>
-
+    <form>
+        <button class="b-button" v-bind:title="loggedInButton">purchaced</button>
+        <!-- <button class="b-button" v-bind:disabled="!canBuy">purchaced</button> -->
+        <button class="b-button" disabled="false">purchaced</button>
+</form>
     <script>
         console.assert(typeof Vue !== 'undefined');
-        
-        var items = [
-            {name:'pencile',price:'300',quantity:0},
-            {name:'note', price: 400, quantity: 0},
-            {name:'eraser', price: 500, quantity: 0}
-        ];
-
         
         var vm = new Vue({
             // template: '<p>{{msg}}</p>',
             data: {
-                items:items
+                loggedInButton:'already logged in.',
+                canBuy:false
         },
-            el: '#app'
+            el: '.b-button'
         })
 
 
