@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+    <title>vue first</title>
+    <script src="https://unpkg.com/vue@2.5.17"></script>
+
+    <div id="app"></div>
+    <div class="ap"></div>
+
+    <script>
+        new Vue({
+            template: '<p>{{msg}}</p>',
+            data: {msg: 'hello world'}
+        }).$mount('.ap')
+    </script>
+</html>
