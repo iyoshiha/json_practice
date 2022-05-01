@@ -16,7 +16,8 @@
         <p> {{ items[0].name }} : {{ items[0].price}} X {{ items[0].quantity}}</p>
         <p>total: {{totalPrice | numberWithDelimiter}} </p>
         <p>total with tax: {{totalPriceWithTax | numberWithDelimiter}} </p>
-        <p v-show="!canBuy">
+        <!-- <p v-bind:class="{error:!canBuy}"> -->
+        <p v-bind:class="errorMessageClass}">
             {{ 1000 | numberWithDelimiter }}円異常から購入可能
         </p>
     </div>
@@ -26,7 +27,7 @@
         
             var vm = new Vue({
                 // template: '<p>{{msg}}</p>',
-                                computed:{
+                computed:{
                     totalPrice:function() {
                         return this.items.reduce(function(sum, i) {
                             console.log(sum, i.price);
@@ -39,6 +40,11 @@
                     },
                     canBuy:function() {
                         return this.totalPrice >= 1000;
+                    },
+                    errorMessageClass:function() {
+                        return {
+                            error:!this.canBuy
+                        }
                     }
                 },
                 data: {
