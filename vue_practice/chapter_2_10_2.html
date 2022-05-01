@@ -17,7 +17,8 @@
         <p>total: {{totalPrice | numberWithDelimiter}} </p>
         <p>total with tax: {{totalPriceWithTax | numberWithDelimiter}} </p>
         <!-- <p v-bind:class="{error:!canBuy}"> -->
-        <p v-bind:class="errorMessageClass}">
+        <!-- <p v-bind:class="errorMessageClass"> -->
+        <p v-bind:style="{border: (canBuy ?'':'1px solid red'), color:(canBuy?'':'red')}">
             {{ 1000 | numberWithDelimiter }}円異常から購入可能
         </p>
     </div>
