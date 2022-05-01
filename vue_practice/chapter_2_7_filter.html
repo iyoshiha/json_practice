@@ -13,26 +13,32 @@
 </head>
 
     <div id="app">
-        <button class="b-button" v-bind:disabled="!canBuy">purchaced</button>
-        <button class="b-button" v-bind:title="loggedInButton">purchaced</button>
-        <p>{{ item[0].price * item[1].price }}</p>
+        <p> {{ items[0].name }} : {{ items[0].price}} X {{ items[0].quantity}}</p>
+        <p>filter excution examaple: {{ items[0].price * 10 | numberWithDelimiter }}</p>
     </div>
-    
+
     <script>
-
         console.assert(typeof Vue !== 'undefined');
+        
 
+        
         var vm = new Vue({
             // template: '<p>{{msg}}</p>',
             data: {
-                loggedInButton:'already logged in.',
-                canBuy:false,
-                item:items //　only value in data property
+                items:items
         },
+            filters: {
+                numberWithDelimiter: function (value) {
+                    if (!value){
+                        return '0';
+                    }
+                    return value.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+                }
+            },
             el: '#app'
         })
-        // we cant mount multiple parent elements.
-        // plural is only children elements.
+        
+
     </script>
 </html>
 <!-- vm.$watch(function() {return this.items[0].quantitiy}.function(quantity) {console.log(quantity)}) -->
