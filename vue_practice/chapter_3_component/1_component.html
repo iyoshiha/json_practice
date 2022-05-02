@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>component</title>
+</head>
+<body>
+<script src="https://unpkg.com/vue@2.5.17"></script>
+<ul id="example">
+    <list-item></list-item>
+</ul>
+
+<main id="main">
+    <fruits-list></fruits-list>
+</main>
+
+<div id="fruits-list">
+    <fruits-list-title></fruits-list-title>
+    <fruits-list-title></fruits-list-title>
+    <fruits-list-title></fruits-list-title>
+    <fruits-list-description></fruits-list-description>
+    <fruits-list-table></fruits-list-table>
+</div>
+
+<script>
+
+    var FruitsListTitle = Vue.extend({
+        template: '<h1>fruits list</h1>'
+    })
+
+    new FruitsListTitle().$mount('#fruits-list')
+
+    Vue.component('fruits-list', { // parent of fruits-list-title , main is just mount point 
+        template: '<div><fruits-list-title><fruits-list-title></h1>'
+    })
+
+
+    Vue.component('fruits-list-title', { // child of frutis-list
+        template: '<h1>fruits list</h1>'
+    })
+    Vue.component('fruits-list-discription', {
+        template: '<p>seasonal fruits list</p>'
+    })
+
+    Vue.component('fruits-list-table', {
+        template: 
+            `
+            <table>
+            <tr><th>season</th><th>fruits</th>
+            <tr><th>spring</th><th>strawberry</th>
+            <tr><th>summer</th><th>water mellon</th>
+            <tr><th>winter</th><th>orange</th>
+            </table>
+            `
+    })
+    // defining Vue instance before define component is not working 
+    Vue.component('list-item', {
+        template: '<li>foo {{ constents }} {{ com }} </li>',
+        data: function() {
+            console.log({constents: 'bar'});
+            return {constents: 'bar'}
+        },
+        computed: {
+            com: function() {
+            return 'bar'
+        }}
+    })
+    new Vue({ el: '#main'})
+    // new Vue({ el: '#example'})
+    // new Vue({ el: '#fruits-list'})
+    // new Vue({ el: '#fruits-list-title'})
+    // new Vue({ el: '#fruits-list-table'})
+</script>
+    
+</body>
+</html>
