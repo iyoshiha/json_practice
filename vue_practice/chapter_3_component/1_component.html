@@ -12,10 +12,10 @@
 
 <main id="main">
     <fruits-list></fruits-list>
+    <fruits-list-title></fruits-list-title>
 </main>
 
 <div id="fruits-list">
-    <fruits-list-title></fruits-list-title>
     <fruits-list-title></fruits-list-title>
     <fruits-list-title></fruits-list-title>
     <fruits-list-description></fruits-list-description>
@@ -28,16 +28,20 @@
         template: '<h1>fruits list</h1>'
     })
 
-    new FruitsListTitle().$mount('#fruits-list')
+    Vue.component(
+        'fruits-list-title', FruitsListTitle
+    )
 
-    Vue.component('fruits-list', { // parent of fruits-list-title , main is just mount point 
-        template: '<div><fruits-list-title><fruits-list-title></h1>'
-    })
+    // new FruitsListTitle().$mount('#fruits-list')
+
+    // Vue.component('fruits-list', { // parent of fruits-list-title , main is just mount point 
+    //     template: '<div><fruits-list-title><fruits-list-title></h1>'
+    // })
 
 
-    Vue.component('fruits-list-title', { // child of frutis-list
-        template: '<h1>fruits list</h1>'
-    })
+    // Vue.component('fruits-list-title', { // child of frutis-list
+    //     template: '<h1>fruits list</h1>'
+    // })
     Vue.component('fruits-list-discription', {
         template: '<p>seasonal fruits list</p>'
     })
@@ -65,7 +69,7 @@
             return 'bar'
         }}
     })
-    new Vue({ el: '#main'})
+    new Vue({ el: '#main'}) // alway we need to mount to the id 
     // new Vue({ el: '#example'})
     // new Vue({ el: '#fruits-list'})
     // new Vue({ el: '#fruits-list-title'})
