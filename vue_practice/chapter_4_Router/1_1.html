@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="https://unpkg.com/vue@2.5.17"></script>
+<script src="https://unpkg.com/vue-router@3.0.1"></script>
+
+<script type="text/x-template" id="fruits-list-title">
+    <h1>x=template</h1>
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>routing</title>
+</head>
+
+
+<body>
+
+<div id="app">
+    <page>
+        <div id="fruits-list">
+            <page-header class="header">
+                <!-- page's contents -->
+                <!-- <h1 slot="header">summer fruit</h1> -->
+            </page-header>
+            <page-content>
+            <ul slot="content">
+                <ul>
+                <li>water mellon</li>
+                <li>mango</li>
+            </ul>
+        </page-content>
+        </div>
+    </page>
+</div>
+
+<script>
+
+    var headerTemplate =`
+    <div style="color:gray;">
+        <slot name="header">
+            notitle
+            </slot>
+        </div>
+        `
+    var contentTemplate =`
+    <span>
+        <slot name="content">no items</slot>
+    </span>
+    `
+
+        Vue.component('page-content', {
+            template:contentTemplate
+        })
+        Vue.component('page-header', {
+            template:headerTemplate
+        })
+
+
+    new Vue({
+        el:'#fruits-list',
+})
+
+</script>
+    
+</body>
+</html>

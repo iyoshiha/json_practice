@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<head>
+    <title>vue first</title>
+    <script src="https://unpkg.com/vue@2.5.17"></script>
+    <script>
+        var items = [
+            {name:'pencile',price:400,quantity: 0},
+            {name:'note', price: 400, quantity: 1},
+            {name:'eraser', price: 500, quantity: 0}
+        ];
+    </script>
+</head>
+
+    <div id="app">
+        <div :style="errorMessageStyle">
+
+        <ul>
+            <li v-for="item in items" v-bind:key="item.name">
+                {{ item.name }}'s amount: 
+                <!-- <input type="number" v-on:input="item.quantity=$event.target.value"
+                 v-bind:value="item.quantity" min="0"> -->
+                <input type="number" v-on:input="item.quantity=$event.target.value"
+                 v-bind:value="item.quantity" min="0">
+
+                <!-- <input type="number" v-model="item.quantity" min="0"> -->
+            </li>
+        </ul>
+
+        <p>{{items[0].name}} : {{ items[0].price }} x {{ items[0].quantity }} = 
+            {{ items[0].price * items[0].quantity| numberWithDelimiter }}</p>
+        <p>total: {{totalPrice | numberWithDelimiter}} </p>
+        <p>total with tax: {{totalPriceWithTax | numberWithDelimiter}} </p>
+        <!-- <p v-bind:class="{error:!canBuy}"> -->
+        <!-- <p v-bind:class="errorMessageClass"> -->
+        <!-- <p v-bind:style="{border: (canBuy ?'':'1px solid red'), color:(canBuy?'':'red')}"> -->
+        <p v-show='!canBuy'>
+            {{ 1000 | numberWithDelimiter }}円異常から購入可能
+        </p></div>
+        <button v-bind:disabled="!canBuy" v-on:click="doBuy($event)">purchase</button>
+            <!-- <li v-for="(item, i) in items" v-bind:key="item.price">{{i}} {{item}}</li>
+            Duplicate keys detected: '400'. This may cause an update error.
+ -->
+    </div>
+
+    <script>
+        console.assert(typeof Vue !== 'undefined');
+        
+            var vm = new Vue({
+                // template: '<p>{{msg}}</p>',
+                methods:{
+                    doBuy:function(){
+                        alert(this.totalPriceWithTax + 'spent!')
+                        this.items.forEach(function (item){
+                            item.quantity = 0;
+                        })
+                    }
+                },
+                computed:{
+                    totalPrice:function() {
+                        return this.items.reduce(function(sum, i) {
+                            console.log(sum, i.price);
+                            console.log(sum + (i.price * i.quantity));
+                            return sum + (i.price * i.quantity)
+                        }, 0)
+                    },
+                    totalPriceWithTax: function () {
+                        return Math.floor(this.totalPrice * 1.08)
+                    },
+                    canBuy:function() {
+                        return this.totalPrice >= 1000;
+                    },
+                    errorMessageClass:function() {
+                        return {
+                            error:!this.canBuy
+                        }
+                    },
+                    errorMessageStyle:function() {
+                        return {
+                            border: this.canBuy ? '' : '1px solid red', 
+                            color: this.canBuy?'':'red'
+                        }
+                    }
+
+                },
+                data: {
+                    items: items,
+                    ary :['a', 'b', 'c'],
+                    // canBuy: true  同じ要素があれば、dataプロパティが優先される。
+                },
+                filters: {
+                    numberWithDelimiter: function (value) {
+                        if (!value) {
+                            return '0';
+                        }
+                        return value.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+                    }
+                },
+                el: '#app',
+            })
+    </script>
+</html>
+<!-- vm.$watch(function() {return this.items[0].quantitiy}.function(quantity) {console.log(quantity)}) -->

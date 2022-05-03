@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<head>
+    <title>vue first</title>
+    <script src="https://unpkg.com/vue@2.5.17"></script>
+</head>
+
+    <div id="app">
+        <p id="app2">
+            {{ message }}
+        </p>
+    </div>
+        <p>{{ msg }}</p>
+
+    <script>
+        console.assert(typeof Vue !== 'undefined');
+
+        new Vue({
+            // template: '<p>{{msg}}</p>',
+            data: {
+                message: 'h ello world',
+                msg: 'nice'
+        },
+            el: '#app'
+        })
+        
+
+    </script>
+</html>
