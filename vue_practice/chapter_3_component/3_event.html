@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://unpkg.com/vue@2.5.17"></script>
+<script type="text/x-template" id="fruits-list-title">
+    <h1>x=template</h1>
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>component</title>
+</head>
+
+
+<body>
+
+<div id="app">
+    <div id="fruits-counter">
+            <div v-for="fruit in fruits">
+                {{ fruit.name }}: <counter-button 
+                v-on:click="incrementCarStatus()"></counter-button>
+            </div>
+     <p> total:{{total}}</p>      
+    </div>
+</div>
+
+<script>
+    var counterButton = Vue.extend({
+        template: '<span> count: {{ counter }} {{k}} <button v-on:click="addToCart">add</button></span>',
+        // data: function() {
+        //     return {
+        //         counter:0
+        //     }
+        data: function()
+            {return {counter: 0,
+            k:10}}
+        ,
+        methods:{
+            addToCart:function() {
+                this.counter += 1
+                console.log(this.counter);
+                this.$emit('increment')
+            }
+        },
+    })
+
+    // Vue.component('fruits-item-name',{
+    //     props:{
+    //         fruitsItem:{
+    //             type:Object,
+    //             required:true
+    //         }
+    //     },
+    //     template:'<li>{{ fruitsItem.name }}</li>'
+    // })
+
+    // new Vue({
+    //     el:'#fruits-component',
+    //     data:{
+    //         fruitsItems: [
+    //             { name: 'pear' },
+    //             { name: 'strawberry' }
+    //     ]}
+    // })
+
+    new Vue({
+        el:'#fruits-counter',
+        components:{
+            'counter-button': counterButton
+        },
+        data: {
+            total:0,
+            fruits: [
+                { name: 'pear' },
+                { name: 'strawberry' }
+            ]
+        },
+        methods: {
+            incrementCarStatus:function() {
+                this.total += 1;
+            }
+        }
+})
+
+</script>
+    
+</body>
+</html>

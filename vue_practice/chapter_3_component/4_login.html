@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://unpkg.com/vue@2.5.17"></script>
+<script type="text/x-template" id="login-template">
+    <div id="login-template">
+        <div>
+            <input type="text" placeholder="login ID" v-modle="userid">
+        </div>
+
+        <div>
+            <input type="password" placeholder="password" v-modle="password">
+        </div>
+        <button @click="login">login</button>
+    </div>
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>component</title>
+</head>
+
+
+<body>
+
+<div id="app">
+        <div id="login-example">
+            <user-login></user-login>
+        </div>
+</div>
+
+<script>
+
+var auth = {
+    login:function(id, password){
+        window.alert("userid" + id + "\n" + "password" + password)
+    }
+}
+
+        Vue.component('user-login', {
+            template:'#login-template',
+            data: function() {
+                return {
+                    userid:'',
+                    password:'' 
+                }
+            },
+            methods:{
+                login:function(){
+                    auth.login(this.userid, this.password)
+                }
+            }
+        })
+
+
+    var vm = new Vue({
+        el:'#login-example',
+})
+
+</script>
+    
+</body>
+</html>
