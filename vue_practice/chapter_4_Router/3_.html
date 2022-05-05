@@ -16,24 +16,19 @@
 <body>
 
 <div id="app">
-    <router-link to="/top">top page</router-link>
-    <router-link to="/users">users page</router-link>
+    <router-link to="/top">top page</router-link></br>
+    <router-link to="/users">users page</router-link></br>
+    <router-link to="{name:'user', params: {userId: 123}}">user details page</router-link>
     <router-view></router-view>
-
 </div>
 
 <script>
     var router = new VueRouter({
         routes:[{
-            path:'/top',
+            path:'/user/:userId',
+            naem:'user',
             component:{
-                template:'<div>top page !!!!</div>'
-            }
-        },
-        {
-            path:'/users',
-            component:{
-                template:'<div>user page @@@@@</div>'
+                template:'<div>user ID is {{ $route.params.userId}} </div>'
             }
         },
     ]

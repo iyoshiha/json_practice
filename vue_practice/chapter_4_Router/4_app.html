@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="https://unpkg.com/vue@2.5.17"></script>
+<script src="https://unpkg.com/vue-router@3.0.1"></script>
+
+<script type="text/x-template" id="login">
+    <div>
+        <h2>Login</h2>
+        <p v-if="$route.query.redirect">
+            please login.
+        </p>
+        <form @submit.prevent="login">
+            <label><input v-model="email" placeholder="email"></label>
+            <label><input v-model="pass" placeholder="password"></label>
+            <button type="submit">login </button>
+        <p v-if="error" class="error">login failed...</p>
+        </form>
+    </div>
+</script>
+
+<script type="text/x-template" id="user-description">
+    <div>
+        <div class="loading" v-if="loading"> loading...</div>
+        <div v-if="error" class="error">{{error}}</div>
+        <div v-if="user">
+            <h2>{{user.name}}</h2>
+            <p>{{user.description}}</p>
+        </div>
+    </div>
+</script>
+
+<!-- <script type="text/x-template" id="user-create"> // div tag number is wrong may be 
+      <div>
+    <div class="sending" v-if="sending">Sending...</div>
+    <div>
+      <h2>新規ユーザー作成</h2>
+      <div>
+        <label>名前: </label>
+        <input type="text" v-model="user.name">
+      </div>
+      <div>
+        <label>説明文: </label>
+        <textarea v-model="user.description"></textarea>
+      </div>
+      <div v-if="error" class="error">
+        {{ error }}
+      </div>
+      <div>
+        <input type="button" @click="createUser" value="送信">
+      </div>
+    </div>
+  </div> -->
+<script type="text/x-template" id="user-create"> // div tag number is wrong may be 
+    <div>
+        <div class="sending" v-if="sending"> sending...</div>
+            <div>
+                <h2>create new user</h2>
+                <div>
+                    <label>name:</label>
+                    <input type="text" v-model="user.name">
+                </div>
+                <div>
+                    <label>description:</label>
+                    <textarea type="text" v-model="user.description"></textarea>
+                </div>
+                <div v-if="error" class="error">
+                    {{error}}
+                </div>
+                <div>
+                    <input type="button" @click="createUser" value="submit">
+                </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" id="user-list">
+    <div> 
+        <div class="loading" v-if="loading">
+            loading...
+        </div>
+        <div v-if="error" class="error">{{error}}</div>
+        <div v-for="user in users" :key="user.id">
+            <h2>{{ user.name}}</h2>
+        </div>
+    </div>
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>routing</title>
+</head>
+
+<body>
+<!-- ################  body  ################# -->
+<div id="app">
+<nav>
+    <router-link to="/top">top page </router-link>
+    <router-link to="/users">users page</router-link>
+    <router-link to="/users/new?redirect=true">new user register</router-link>
+    <router-link to="/login" v-show="!Auth.loggedIn()">log in</router-link>
+    <router-link to="/login" v-show="Auth.loggedIn()">log out</router-link>
+</nav>
+    <router-view></router-view>
+</div>
+
+<script>
+
+// var Auth= {
+//     login:function(email,pass,cb) {
+//         setTimeout(function(){
+//             if (email === 'vue@example.com' && pass === 'vue'){
+//                 localStorage.token = Math.random().toString(36).substring(7)
+//                 if (cb) {cb(true)}
+//             }else {
+//                 if (cb) {cb(false)}
+//             }
+//         }, 0)
+//     },
+
+//     logout:function(){
+//         delete localStorage.token
+//     },
+//     loggedIn:function() {
+//         return !!localStorage.token
+//     }
+// }
+var Auth = {
+  login: function (email, pass, cb) {
+    // ダミーデータを使った擬似ログイン
+    setTimeout(function () {
+      if (email === 'vue@example.com' && pass === 'vue') {
+        // ログイン成功時はローカルストレージにtokenを保存する
+        localStorage.token = Math.random().toString(36).substring(7)
+        if (cb) { cb(true) }
+      } else {
+        if (cb) { cb(false) }
+      }
+    }, 0)
+  },
+
+  logout: function () {
+    delete localStorage.token
+  },
+
+  loggedIn: function () {
+    // ローカルストレージにtokenがあればログイン状態とみなす
+    return !!localStorage.token
+  }
+}
+
+var Login = {
+    template:'#login',
+    data: function(){
+        return {
+            email:'vue@example.com',
+            pass:'',
+            error:false
+        }
+    },
+    methods:{
+        login:function(){
+            Auth.login(this.email, this.pass, (function(loggedIn) {
+                if(!loggedIn){
+                    this.error = true
+                }else {
+                    this.$router.replace(this.$route.query.redirect || '/')
+                }
+            }).bind(this))
+        }
+    }
+}
+
+ var userData = [
+    {
+        id:1,
+        name:'Takuya Tejima',
+        description:'south asian software engineer'
+    },
+    {
+        id:2,
+        name:'Yohei Noda',
+        description:'front-end engineer'
+    },
+]
+
+
+ var UserDetail ={ 
+    template: '#user-detail',
+    data:function() {
+        return {
+            loading:false,
+            user:null,
+            error:null,
+        }
+    },
+    created:function(){
+        this.fetchData();
+    },
+    watch:{
+        '$route':'fetchData()'
+    },
+    methods:{
+        fetchData:function(){
+            this.loading = ture
+            getUser(this.$route.params.userId, (function(err,user){
+                this.loading = false
+                if (err) {
+                    this.error = err.toString()
+                }else{
+                    this.user = user
+                }
+            }).bind(this))
+        }
+    }
+}
+
+     var UserList = {
+        template:'#user-list',
+        data:function(){
+            return {
+                loading:false,
+                users:function() {return []},
+                error:null
+            }
+        },
+        created:function() {
+            this.fetchData()
+        },
+        watch:{
+            '$route':'fetchData'
+        },
+        methods:{
+            fetchData:function(){
+                this.loading = true
+                getUsers((function(err,users){
+                    this.loading = false
+                    if(err){
+                        this.error = err.toString()
+                    }else{
+                        this.users = users
+                    }
+                }).bind(this)) // bind なにしてる
+            }
+        }
+    }
+// ########### CREATE @@@@@@@@@@
+//      var UserCreate = {
+//     template:'#user-create',
+//     data:function() {
+//         return {
+//             sending:false,
+//             user:this.defaultUser(),
+//             error:null
+//         }
+//     },
+//     created:function(){
+//     },
+//     methods:{
+//         defaultUser:function(){
+//             return {
+//                 name:'',
+//                 description:''
+//             }
+//         },
+//         createUser:function(){
+//             // validation
+//             if(this.user.name.trim() ===''){
+//                 this.error = 'Name is necessary'
+//                 return 
+//             }
+//             if(this.user.description.trim() === '') {
+//                 this.error = 'Description is necessary'
+//                 return
+//             }
+//             postUser(this.user, (function(err,user){
+//                 this.sending = false
+//                 if(err){
+//                     this.error = err.toString()
+//                 }else{
+//                     this.error = null
+//                     this.user = this.defaultUser()
+//                     this.$router.push('/users')
+//                 }
+//             }).bind(this))
+//         }
+//     }
+// }
+var UserCreate = {
+  template: '#user-create',
+  data: function () {
+    return {
+      sending: false,
+      user: this.defaultUser(),
+      error: null
+    }
+  },
+
+  created: function () {
+  },
+
+  methods: {
+    defaultUser: function () {
+      return {
+        name: '',
+        description: ''
+      }
+    },
+    createUser: function () {
+      // 入力パラメーターのバリデーション
+      if (this.user.name.trim() === '') {
+        this.error = 'Nameは必須です'
+        return
+      }
+      if (this.user.description.trim() === '') {
+        this.error = 'Descriptionは必須です'
+        return
+      }
+      postUser(this.user, (function (err, user) {
+        this.sending = false
+        if (err) {
+          this.error = err.toString()
+        } else {
+          this.error = null
+          // デフォルトでフォームをリセット
+          this.user = this.defaultUser()
+          alert('新規ユーザーが登録されました')
+          // ユーザー一覧ページに戻る
+          this.$router.push('/users')
+        }
+      }).bind(this))
+    }
+  }
+}
+
+
+
+// @@@@@@@@@@@@@@@@@
+
+ var getUsers = function(callback) {
+    setTimeout(function() {
+        callback(null, [
+            {
+                id:1,
+                name:'Takuya Tejima'
+            },
+            {
+                id:2,
+                name:'Yohei Noda'
+            }
+        ])
+    }, 1000)
+}
+
+
+ var getUser = function(userId, callback){
+    setTimeout(function(){
+        var filteredUsers = userData.filter(function(user){
+            return user.id === parseInt(userId, 10)
+        })
+        callback(null, filteredUsers && filteredUsers[0])
+    }, 1000)
+}
+
+ var postUser = function(params, callback) {
+    setTimeout(function(){
+        params.id = userData.length + 1
+        userData.push(params)
+        callback(null, params)
+    }, 1000)
+}
+
+
+
+    // import {UserCreate, } from "./component.js"
+    // import {getUsers, getUser, postUser } from "./funcs.js"
+// ################ ROUTER
+        var router = new VueRouter({
+            routes: [
+            {
+                path: '/',
+                component: {
+                    template: '<div>this is root page</div>'// can i write #user-list?
+                }
+            },
+            {
+                path: '/top',
+                component: {
+                    template: '<div>this is top page number: {{number}}</div>',
+                    data:function(){return {number:100}}
+                }
+            },
+            {
+                path: '/users',
+                component:UserList // can i write #user-list? its not good idea coz this has object
+            },
+                {
+                    path: '/users/new',
+                    component: UserCreate,
+                    BeforeEnter: function (to, from, next) {
+                        if (!Auth.loggedIn()) {
+                            next({
+                                path: '/login',
+                                query: { redirect: to.fullPath }
+                            })
+                        } else {
+                            next()
+                        }
+                    }
+                },
+            
+            {
+                path:'/users/:userId',
+                component:UserDetail
+            },
+            {
+                path: '/login',
+                component: Login 
+            },
+            {
+                path: '/logout',
+                beforeEnter:function(to, from, next){
+                    Auth.logout()
+                    next('/top')
+                }
+            },
+                {
+      // 定義されていないパスへの対応。トップページへリダイレクトする。
+      path: '*',
+      redirect: '/top'
+    }
+    ]
+})
+
+    var app = new Vue({
+        router:router,
+        data:{
+            Auth:Auth
+        }
+}).$mount('#app');
+</script>
+    
+</body>
+</html>

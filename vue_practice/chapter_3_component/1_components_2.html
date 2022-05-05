@@ -15,19 +15,20 @@
 
 <script>
     var v = Vue.extend({
-        template:'<h1>fruits list</h1>'
+        template:'<h1>fruits list{{num}}</h1>',
+        data:function(){return {num:100}}
     })
     new v().$mount('#fruits-list-title');
 
-    // Vue.components('fruits-list-title', v)
+    Vue.component('fruits-list-title', v)
 
     new Vue({
         el:"#fruits-list",
-        components:{
-            'fruits-list-title':{
-                template:'<main><h1>fruits list</h1></main>'
-            }
-        }
+        // components:{
+        //     'fruits-list-title':{
+        //         template:'<main><h2>fruits listk</h2></main>'
+        //     }
+        // }
     })
     // new Vue({ el: '#example'})
     // new Vue({ el: '#fruits-list'})
